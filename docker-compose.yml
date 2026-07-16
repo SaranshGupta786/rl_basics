@@ -1,0 +1,24 @@
+services:
+  demo:
+    build: .
+    volumes:
+      - ./output:/app/output
+    command: ["python", "demo.py", "--plot", "--output-dir", "output"]
+
+  planning:
+    build: .
+    volumes:
+      - ./output:/app/output
+    command: ["python", "demo.py", "planning", "--plot", "--output-dir", "output"]
+
+  value:
+    build: .
+    volumes:
+      - ./output:/app/output
+    command: ["python", "demo.py", "value", "--plot", "--output-dir", "output"]
+
+  qlearning:
+    build: .
+    volumes:
+      - ./output:/app/output
+    command: ["python", "demo.py", "qlearning", "--plot", "--output-dir", "output"]
