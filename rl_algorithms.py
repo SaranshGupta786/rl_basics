@@ -91,7 +91,7 @@ def q_learning(
     epsilon: float = 0.2,
     seed: int | None = 42,
 ) -> QLearningResult:
-    """Monte Carlo control with epsilon-greedy exploration."""
+    """Q-learning (off-policy TD control) with epsilon-greedy exploration."""
     rng = np.random.default_rng(seed)
     states = env.in_bounds_states()
     q_table = {state: np.zeros(len(Action), dtype=float) for state in states}
@@ -110,7 +110,10 @@ def q_learning(
             else:
                 action = Action(int(np.argmax(q_table[state])))
 
-            next_state, reward, done = env.transition(state, action)
+            step_result = env.step(action)
+            next_state = step_result.state
+            reward = step_result.reward
+            done = step_result.done
             best_next = np.max(q_table[next_state])
             q_table[state][action] += alpha * (reward + gamma * best_next - q_table[state][action])
             total_reward += reward

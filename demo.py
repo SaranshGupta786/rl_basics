@@ -71,7 +71,7 @@ def demo_value_iteration(show_plot: bool, output_dir: Path | None) -> None:
 
 
 def demo_q_learning(show_plot: bool, output_dir: Path | None) -> None:
-    env = GridWorld.classic(step_cost=-0.04, goal_reward=1.0)
+    env = GridWorld.classic()
     print_header("Q-learning")
     result = q_learning(env, episodes=400, alpha=0.5, epsilon=0.2, seed=42)
 

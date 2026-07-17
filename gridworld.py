@@ -132,7 +132,8 @@ class GridWorld:
         return next_row, next_col
 
     def _sample_action(self, action: Action) -> Action:
-        if self.slip_prob <= 0.0:
+        slip_prob = min(self.slip_prob, 0.5)
+        if slip_prob <= 0.0:
             return action
 
         perpendicular = {
@@ -143,9 +144,9 @@ class GridWorld:
         }[action]
 
         roll = self.rng.random()
-        if roll < self.slip_prob:
+        if roll < slip_prob:
             return perpendicular[0]
-        if roll < 2 * self.slip_prob:
+        if roll < 2 * slip_prob:
             return perpendicular[1]
         return action
 
@@ -157,7 +158,7 @@ class GridWorld:
         actual_action = self._sample_action(action)
         next_state = self._apply_action(self.state, actual_action)
 
-        if next_state == self.state and actual_action in self.legal_actions(self.state):
+        if next_state == self.state:
             reward = self.wall_penalty
         elif next_state == self.goal_state:
             reward = self.goal_reward
